@@ -24,6 +24,11 @@ public class FairQueueLock implements Lock {
     private AtomicInteger guard = new AtomicInteger(0);
     private int flag = 0;
 
+    /**
+     * 当前持有锁的线程
+     */
+    Thread holder;
+
     @Override
     public void lock() {
         // lock方法中的代码需要保证原子性
@@ -32,12 +37,35 @@ public class FairQueueLock implements Lock {
 
         if (flag == 0) {
             flag = 1;
+            holder = Thread.currentThread();
             guard.set(0);
         } else {
             queue.add(Thread.currentThread());
             guard.set(0);
             LockSupport.park();
         }
+    }
+
+
+    @Override
+    public void unlock() {
+        // unlock方法中的代码需要保证原子性
+        while (guard.getAndSet(1) == 1) {
+        }
+
+        if (Thread.currentThread() != holder) {
+            throw new IllegalMonitorStateException();
+        }
+
+
+        if (queue.isEmpty()) {
+            flag = 0;
+            holder = null;
+        } else {
+            holder = queue.poll();
+            LockSupport.unpark(holder);
+        }
+        guard.set(0);
     }
 
     @Override
@@ -55,18 +83,6 @@ public class FairQueueLock implements Lock {
         return false;
     }
 
-    @Override
-    public void unlock() {
-        // unlock方法中的代码需要保证原子性
-        while (guard.getAndSet(1) == 1) {
-        }
-        if (queue.isEmpty()) {
-            flag = 0;
-        } else {
-            LockSupport.unpark(queue.poll());
-        }
-        guard.set(0);
-    }
 
     @Override
     public Condition newCondition() {

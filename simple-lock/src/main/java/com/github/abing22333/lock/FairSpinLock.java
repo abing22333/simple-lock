@@ -15,14 +15,29 @@ public class FairSpinLock implements Lock {
     private AtomicInteger ticket = new AtomicInteger(0);
     private AtomicInteger turn = new AtomicInteger(0);
 
+    /**
+     * 当前持有锁的线程
+     */
+    Thread holder;
+
     @Override
     public void lock() {
         // 返回旧值，并且让该值自增一
         int myTurn = ticket.getAndIncrement();
 
         while (turn.get() != myTurn) {
-
         }
+
+        holder = Thread.currentThread();
+    }
+
+    @Override
+    public void unlock() {
+        if (Thread.currentThread() != holder) {
+            throw new IllegalMonitorStateException();
+        }
+
+        turn.getAndIncrement();
     }
 
     @Override
@@ -38,11 +53,6 @@ public class FairSpinLock implements Lock {
     @Override
     public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
         return false;
-    }
-
-    @Override
-    public void unlock() {
-        turn.getAndIncrement();
     }
 
     @Override
