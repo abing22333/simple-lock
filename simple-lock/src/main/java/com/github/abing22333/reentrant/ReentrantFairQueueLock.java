@@ -37,6 +37,7 @@ public class ReentrantFairQueueLock implements Lock {
         // 当前线程已持有锁，可重入
         if (flag > 0 && holder == Thread.currentThread()) {
             flag++;
+            guard.set(0);
             return;
         }
 
@@ -64,6 +65,7 @@ public class ReentrantFairQueueLock implements Lock {
         // 线程重入
         if (flag > 1) {
             flag--;
+            guard.set(0);
             return;
         }
 
