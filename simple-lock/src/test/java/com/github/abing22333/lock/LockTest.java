@@ -2,10 +2,7 @@ package com.github.abing22333.lock;
 
 import com.github.abing22333.condtion.ConditionLock;
 import com.github.abing22333.reentrant.ReentrantFairQueueLock;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -48,7 +45,7 @@ class LockTest {
                 , new ReentrantFairQueueLock()
                 , new ReentrantLock());
     }
-
+    @Timeout(value = 15, unit = TimeUnit.SECONDS)
     @Test
     @DisplayName("没有用的锁")
     @Order(1)
@@ -59,7 +56,7 @@ class LockTest {
         assertNotEquals(result.size(), num);
     }
 
-
+    @Timeout(value = 15, unit = TimeUnit.SECONDS)
     @ParameterizedTest
     @MethodSource("lockFactory")
     @DisplayName("lock,unlock方法的正常处理")
@@ -69,7 +66,7 @@ class LockTest {
         assertEquals(result.size(), num);
     }
 
-
+    @Timeout(value = 15, unit = TimeUnit.SECONDS)
     @ParameterizedTest
     @MethodSource("lockFactory")
     @DisplayName("unlock方法的异常处理")
@@ -89,7 +86,7 @@ class LockTest {
      *
      * @param lock lock
      * @return 收集的结果
-     * @throws InterruptedException
+     * @throws InterruptedException InterruptedException
      */
     Set<Integer> execute(Lock lock) throws InterruptedException {
         Set<Integer> result = new HashSet<>(num);
