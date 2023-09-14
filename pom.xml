@@ -11,5 +11,6 @@
 
     <modules>
         <module>simple-lock</module>
+        <module>benchmark</module>
     </modules>
 </project>

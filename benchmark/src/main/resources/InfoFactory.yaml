@@ -1,0 +1,13 @@
+sequenceGroups:
+  # 每个任务循环次数: 50次，每次循环睡眠: 1ms, 任务数量:【从3开始，公差为1，项数为3的等差队列】, 指定测试的locks
+  - loop: { a1: 50 }
+    sleepTime: { a1: 1 }
+    taskSize: { a1: 3, d: 1, n: 3 }
+    title: "1. 当任务数量超过cup核数时，基于自旋的锁消耗非常大"
+    locks: [ "SYNCHRONIZED","REENTRANT_LOCK","FAIR_QUEUE_LOCK", "FAIR_SPIN_LOCK" ]
+
+  # 每个任务循环次数:【从100开始，公差为50，项数为4的等差队列】，每次循环睡眠时长: 1ms, 任务数量: 4
+  - loop: { a1: 100, d: 50, n: 3 }
+    sleepTime: { a1: 1 }
+    taskSize: { a1: 4 }
+    title: "2. 当任务数量没有超过cup核数时，基于自旋的锁与基于队列的锁消耗相差不大"
