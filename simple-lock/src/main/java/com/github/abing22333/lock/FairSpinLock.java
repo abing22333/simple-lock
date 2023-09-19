@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 /**
- * 一个公平的自旋锁。
+ * 基于自旋的公平锁
  *
  * @author abing
  * @date 2023/9/3

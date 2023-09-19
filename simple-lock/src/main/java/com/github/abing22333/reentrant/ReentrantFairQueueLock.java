@@ -9,7 +9,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.LockSupport;
 
 /**
- * 一个线程可重入的公平的自旋锁。
+ * 线程可重入锁
  *
  * @author abing
  * @date 2023/9/3

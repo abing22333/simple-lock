@@ -9,7 +9,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.LockSupport;
 
 /**
- * 一个公平的自旋锁。
+ * 基于队列休眠的公平锁
  *
  * @author abing
  * @date 2023/9/3

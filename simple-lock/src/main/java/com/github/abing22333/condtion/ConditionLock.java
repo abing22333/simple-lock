@@ -11,7 +11,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.LockSupport;
 
 /**
- * 一个实现条件变量的锁。
+ *  带有condition的锁。
  *
  * @author abing
  * @date 2023/9/3

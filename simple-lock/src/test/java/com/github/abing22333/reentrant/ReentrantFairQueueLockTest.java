@@ -62,8 +62,8 @@ class ReentrantFairQueueLockTest {
     boolean check(List<Character> list) {
         int i = 0, j = list.size() - 1, n = j;
         while (i < j) {
-            Character front = list.get(i--);
-            Character back = list.get(j++);
+            Character front = list.get(i++);
+            Character back = list.get(j--);
             if (!Objects.equals(list.get(0), front)) {
                 return false;
             }
